@@ -1,13 +1,13 @@
-import * as Yup from 'yup';
-import bcrypt from 'bcryptjs';
-import UserModel from '../models/User';
-import nodemailer from 'nodemailer';
-import config from '../../config/config';
-import configEmail from '../../config/email';
+import * as Yup from "yup";
+import bcrypt from "bcryptjs";
+import UserModel from "../models/User";
+import nodemailer from "nodemailer";
+import config from "../../config/config";
+import configEmail from "../../config/email";
 
 class PasswordRecoveryController {
   async show(req, res) {
-    UserModel.findOne({ passwordRecovery: req.params.passwordRecovery }, '_id')
+    UserModel.findOne({ passwordRecovery: req.params.passwordRecovery }, "_id")
       .then((user) => {
         if (user._id) {
           return res.json({
@@ -19,7 +19,7 @@ class PasswordRecoveryController {
       .catch((error) => {
         return res.status(400).json({
           error: true,
-          messsage: 'Erro: URL inválida!',
+          messsage: "Erro: URL inválida!",
         });
       });
   }
@@ -32,19 +32,19 @@ class PasswordRecoveryController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({
         error: true,
-        messsage: 'Erro: Dados inválidos!',
+        messsage: "Erro: Dados inválidos!",
       });
     }
 
     var data = req.body;
     const userExists = await UserModel.findOne(
       { email: data.email },
-      '_id name email'
+      "_id name email"
     );
     if (!userExists) {
       return res.status(400).json({
         error: true,
-        message: 'Error: Nenhum usuário encontrado com esse e-mail!',
+        message: "Error: Nenhum usuário encontrado com esse e-mail!",
       });
     }
 
@@ -54,7 +54,7 @@ class PasswordRecoveryController {
       if (error)
         return res.status(400).json({
           error: true,
-          message: 'Erro: Não foi possível executar a solicitação!',
+          message: "Erro: Não foi possível executar a solicitação!",
         });
 
       let transport = nodemailer.createTransport({
@@ -67,31 +67,31 @@ class PasswordRecoveryController {
       });
 
       let emailHtml =
-        'Prezado(a) ' +
+        "Prezado(a) " +
         userExists.name +
-        '<br><br> Você solicitou uma alteração de senha.<br>Seguindo o link abaixo você poderá alterar sua senha.<br>Para continuar o processo de recuperação de sua senha, clique no link abaixo ou cole o endereço abaixo no seu navegador.<br><br>' +
+        "<br><br> Você solicitou uma alteração de senha.<br>Seguindo o link abaixo você poderá alterar sua senha.<br>Para continuar o processo de recuperação de sua senha, clique no link abaixo ou cole o endereço abaixo no seu navegador.<br><br>" +
         config.urlSite +
-        '/atualizar-senha-login/' +
+        "/atualizar-senha-login/" +
         data.passwordRecovery +
-        '<br><br>Usuário: ' +
+        "<br><br>Usuário: " +
         userExists.email +
-        '<br><br>Se você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá a mesma até que você ative este código';
+        "<br><br>Se você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá a mesma até que você ative este código";
 
       let emailText =
-        'Prezado(a) ' +
+        "Prezado(a) " +
         userExists.name +
-        '\n\nVocê solicitou uma alteração de senha.\nSeguindo o link abaixo você poderá alterar sua senha.\nPara continuar o processo de recuperação de sua senha, clique no link abaixo ou cole o endereço abaixo no seu navegador.\n\n' +
+        "\n\nVocê solicitou uma alteração de senha.\nSeguindo o link abaixo você poderá alterar sua senha.\nPara continuar o processo de recuperação de sua senha, clique no link abaixo ou cole o endereço abaixo no seu navegador.\n\n" +
         config.urlSite +
-        '/atualizar-senha-login/' +
+        "/atualizar-senha-login/" +
         data.passwordRecovery +
-        '\n\nUsuário: ' +
+        "\n\nUsuário: " +
         userExists.email +
-        '\n\nSe você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá a mesma até que você ative este código';
+        "\n\nSe você não solicitou essa alteração, nenhuma ação é necessária. Sua senha permanecerá a mesma até que você ative este código";
 
       let emailMessage = {
         from: configEmail.from,
         to: userExists.email,
-        subject: 'Instruções para recuperar a senha',
+        subject: "Instruções para recuperar a senha",
         html: emailHtml,
         text: emailText,
       };
@@ -101,13 +101,13 @@ class PasswordRecoveryController {
           return res.status(400).json({
             error: true,
             code: 111,
-            message: 'Erro: Não foi possível executar a solicitação!',
+            message: "Erro: Não foi possível executar a solicitação!",
           });
 
         return res.json({
           error: false,
           message:
-            'Enviado no e-mail as intruções para recuperar a senha, verifique sua caixa de entrada!',
+            "Enviado no e-mail as intruções para recuperar a senha, verifique sua caixa de entrada!",
         });
       });
     });
@@ -123,28 +123,28 @@ class PasswordRecoveryController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({
         error: true,
-        messsage: 'Erro: data inválidos!',
+        messsage: "Erro: data inválidos!",
       });
     }
 
     const { _id, passwordRecovery } = req.body;
 
-    const usuarioExiste = await UserModel.findOne({ _id: _id }, '_id');
+    const usuarioExiste = await UserModel.findOne({ _id: _id }, "_id");
     if (!usuarioExiste) {
       return res.status(400).json({
         error: true,
-        messsage: 'Erro: Usuário não encontrado!',
+        messsage: "Erro: Usuário não encontrado!",
       });
     }
 
     const validateKey = await UserModel.findOne(
       { passwordRecovery: passwordRecovery },
-      '_id'
+      "_id"
     );
     if (!validateKey) {
       return res.status(401).json({
         error: true,
-        message: 'Erro: URL inválida!',
+        message: "Erro: URL inválida!",
       });
     }
 
@@ -158,12 +158,12 @@ class PasswordRecoveryController {
       if (error)
         return res.status(400).json({
           error: true,
-          message: 'Erro: Senha não foi editada com sucesso!',
+          message: "Erro: Senha não foi editada com sucesso!",
         });
 
       return res.json({
         error: false,
-        message: 'Senha editada com sucesso!',
+        message: "Senha editada com sucesso!",
       });
     });
   }

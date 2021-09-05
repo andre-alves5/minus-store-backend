@@ -1,24 +1,17 @@
-import * as Yup from 'yup';
-import ItemModel from '../models/Item';
+import * as Yup from "yup";
+import ItemModel from "../models/Item";
 
 class ItemController {
   async index(req, res) {
-    /*await sleep(3000);
-
-    function sleep(ms) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-    }*/
     const { page = 1 } = req.query;
     const { limit = 20 } = req.query;
     await ItemModel.paginate(
       {},
       {
-        select: '_id title description color size price url',
+        select: "_id title description color size price url",
         page,
         limit,
-        sort: 'title color size',
+        sort: "title color size",
       }
     )
       .then((data) => {
@@ -30,7 +23,7 @@ class ItemController {
       .catch((error) => {
         return res.status(400).json({
           error: true,
-          message: 'Erro: Não foi possivel executar a solicitação',
+          message: "Erro: Não foi possivel executar a solicitação",
         });
       });
   }
@@ -38,7 +31,7 @@ class ItemController {
   async show(req, res) {
     ItemModel.findOne(
       { _id: req.params.id },
-      '_id title description color size price url createdAt updatedAt'
+      "_id title description color size price url createdAt updatedAt"
     )
       .then((data) => {
         const {
@@ -70,7 +63,7 @@ class ItemController {
       .catch((error) => {
         return res.status(400).json({
           error: true,
-          message: 'Erro: Não foi possivel executar a solicitação',
+          message: "Erro: Não foi possivel executar a solicitação",
         });
       });
   }
@@ -87,7 +80,7 @@ class ItemController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({
         error: true,
-        message: 'Error: Dados inválidos!',
+        message: "Error: Dados inválidos!",
       });
     }
 
@@ -97,12 +90,12 @@ class ItemController {
       if (error)
         return res.status(400).json({
           error: true,
-          message: 'Error: Item não foi cadastrado com sucesso!',
+          message: "Error: Item não foi cadastrado com sucesso!",
         });
 
       return res.status(200).json({
         error: false,
-        message: 'Item cadastrado com sucesso!',
+        message: "Item cadastrado com sucesso!",
         data: item,
       });
     });
@@ -120,7 +113,7 @@ class ItemController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({
         error: true,
-        message: 'Erro: Dados do formulário inválido!',
+        message: "Erro: Dados do formulário inválido!",
       });
     }
 
@@ -131,7 +124,7 @@ class ItemController {
     if (!itemExists) {
       return res.status(400).json({
         error: true,
-        message: 'Erro: Item não encontrado!',
+        message: "Erro: Item não encontrado!",
       });
     }
 
@@ -141,12 +134,12 @@ class ItemController {
       if (error)
         return res.status(400).json({
           error: true,
-          message: 'Erro: Item não foi editado com sucesso!',
+          message: "Erro: Item não foi editado com sucesso!",
         });
 
       return res.json({
         error: false,
-        message: 'Item editado com sucesso!',
+        message: "Item editado com sucesso!",
       });
     });
   }
@@ -156,7 +149,7 @@ class ItemController {
     if (!itemExists) {
       return res.status(400).json({
         error: true,
-        message: 'Erro: Item não encontrado',
+        message: "Erro: Item não encontrado",
       });
     }
 
@@ -164,13 +157,13 @@ class ItemController {
       if (error)
         return res.status(400).json({
           error: true,
-          message: 'Error: Item não foi apagado com sucesso!',
+          message: "Error: Item não foi apagado com sucesso!",
         });
     });
 
     return res.json({
       error: false,
-      message: 'Item apagado com sucesso!',
+      message: "Item apagado com sucesso!",
     });
   }
 }
