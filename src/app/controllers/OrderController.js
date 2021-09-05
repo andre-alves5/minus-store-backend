@@ -1,5 +1,5 @@
-import * as Yup from 'yup';
-import OrderModel from '../models/Order';
+const Yup = require('yup');
+const OrderModel = require('../models/Order');
 
 class OrderController {
   async index(req, res) {
@@ -171,4 +171,4 @@ class OrderController {
   }
 }
 
-export default new OrderController();
+module.exports = new OrderController();

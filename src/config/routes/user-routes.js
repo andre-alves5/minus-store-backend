@@ -1,16 +1,16 @@
-import LoginController from '../../app/controllers/LoginController';
-import PasswordRecoveryController from '../../app/controllers/PasswordRecoveryController';
-import PerfilController from '../../app/controllers/PerfilController';
-import PerfilImagemController from '../../app/controllers/PerfilImageController';
-import UserController from '../../app/controllers/UserController';
-import authMiddleware from '../../app/middlewares/auth';
-import multerImage from '../../app/middlewares/uploadImage';
+const LoginController = require('../../app/controllers/LoginController');
+const PasswordRecoveryController = require('../../app/controllers/PasswordRecoveryController');
+const PerfilController = require('../../app/controllers/PerfilController');
+const PerfilImagemController = require('../../app/controllers/PerfilImageController');
+const UserController = require('../../app/controllers/UserController');
+const authMiddleware = require('../../app/middlewares/auth');
+const multerImage = require('../../app/middlewares/uploadImage');
 
-import multer from 'multer';
+const multer = require('multer');
 
 const uploadImage = multer(multerImage);
 
-export default (router) => {
+module.exports = (router) => {
   router.get('/users', UserController.index);
   router.get('/users/:id', UserController.show);
   router.post('/users', UserController.store);

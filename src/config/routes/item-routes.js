@@ -1,13 +1,13 @@
-import ItemController from "../../app/controllers/ItemController";
-import ItemImageController from "../../app/controllers/ItemImageController";
-import authMiddleware from "../../app/middlewares/auth";
-import multerImage from "../../app/middlewares/uploadImage";
+const ItemController = require("../../app/controllers/ItemController");
+const ItemImageController = require("../../app/controllers/ItemImageController");
+const authMiddleware = require("../../app/middlewares/auth");
+const multerImage = require("../../app/middlewares/uploadImage");
 
-import multer from "multer";
+const multer = require("multer");
 
 const uploadImage = multer(multerImage);
 
-export default (router) => {
+module.exports = (router) => {
   router.get("/items", ItemController.index);
   router.get("/item/:id", ItemController.show);
   router.post("/item", authMiddleware, ItemController.store);

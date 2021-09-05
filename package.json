@@ -1,6 +1,7 @@
 {
   "name": "minus-store-backend",
   "version": "1.1.0",
+  "type": "commonjs",
   "scripts": {
     "dev": "nodemon src/server.js",
     "build": "sucrase ./src -d ./outDir --transforms imports",

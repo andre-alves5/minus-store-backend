@@ -1,7 +1,7 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import UserModel from '../models/User';
-import configAuth from '../../config/auth';
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const UserModel = require('../models/User');
+const configAuth = require('../../config/auth');
 
 class LoginController {
   async store(req, res) {
@@ -36,4 +36,4 @@ class LoginController {
   }
 }
 
-export default new LoginController();
+module.exports = new LoginController();

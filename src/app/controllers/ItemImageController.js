@@ -1,12 +1,12 @@
-import ItemModel from '../models/Item';
-import fs from 'fs';
+const ItemModel = require("../models/Item");
+const fs = require("fs");
 
 class ItemImageController {
   async update(req, res) {
     if (!req.file) {
       return res.status(400).json({
         error: true,
-        message: 'Error: Selecione uma imagem válida JPEG ou PNG!',
+        message: "Error: Selecione uma imagem válida JPEG ou PNG!",
       });
     }
 
@@ -15,7 +15,7 @@ class ItemImageController {
       fileName: req.file.filename,
     };
 
-    await ItemModel.findOne({ _id: req.params.id }, '_id fileName')
+    await ItemModel.findOne({ _id: req.params.id }, "_id fileName")
       .then((item) => {
         req.itemImageData = item.fileName;
       })
@@ -23,7 +23,7 @@ class ItemImageController {
         return res.status(400).json({
           error: true,
           code: 128,
-          message: 'Erro: Não foi possível executar a solicitação!',
+          message: "Erro: Não foi possível executar a solicitação!",
         });
       });
 
@@ -31,11 +31,11 @@ class ItemImageController {
       if (error)
         return res.status(400).json({
           error: true,
-          message: 'Erro: Imagem do item não editada com sucesso!',
+          message: "Erro: Imagem do item não editada com sucesso!",
         });
     });
 
-    const oldItemImage = req.file.destination + '/' + req.itemImageData;
+    const oldItemImage = req.file.destination + "/" + req.itemImageData;
 
     fs.access(oldItemImage, (error) => {
       if (!error) {
@@ -47,9 +47,9 @@ class ItemImageController {
 
     return res.json({
       error: false,
-      message: 'Imagem do item editada com sucesso!',
+      message: "Imagem do item editada com sucesso!",
     });
   }
 }
 
-export default new ItemImageController();
+module.exports = new ItemImageController();

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2';
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const ItemModel = new mongoose.Schema(
   {
@@ -36,4 +36,4 @@ const ItemModel = new mongoose.Schema(
 );
 ItemModel.plugin(mongoosePaginate);
 
-export default mongoose.model('item', ItemModel);
+module.exports = mongoose.model('item', ItemModel);

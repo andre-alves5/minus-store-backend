@@ -1,7 +1,7 @@
-import OrderController from '../../app/controllers/OrderController';
-import authMiddleware from '../../app/middlewares/auth';
+const OrderController = require('../../app/controllers/OrderController');
+const authMiddleware = require('../../app/middlewares/auth');
 
-export default (router) => {
+module.exports = (router) => {
   router.get('/orders', authMiddleware, OrderController.index);
   router.get('/order/:id', authMiddleware, OrderController.show);
   router.post('/order', authMiddleware, OrderController.store);

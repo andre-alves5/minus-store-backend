@@ -1,5 +1,5 @@
-import * as Yup from "yup";
-import ItemModel from "../models/Item";
+const Yup = require("yup");
+const ItemModel = require("../models/Item");
 
 class ItemController {
   async index(req, res) {
@@ -168,4 +168,4 @@ class ItemController {
   }
 }
 
-export default new ItemController();
+module.exports = new ItemController();

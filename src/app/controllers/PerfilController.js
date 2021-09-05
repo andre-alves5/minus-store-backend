@@ -1,9 +1,9 @@
-import * as Yup from 'yup';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import UserModel from '../models/User';
-import config from '../../config/config';
-import configAuth from '../../config/auth';
+const Yup = require('yup');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const UserModel = require('../models/User');
+const config = require('../../config/config');
+const configAuth = require('../../config/auth');
 
 class PerfilController {
   async show(req, res) {
@@ -13,9 +13,9 @@ class PerfilController {
     )
       .then((user) => {
         if (user.fileName) {
-          var url = config.url + '/files/users/' + user.fileName;
+          let url = config.url + '/files/users/' + user.fileName;
         } else {
-          var url = config.url + '/files/users/icone_usuario.png';
+          let url = config.url + '/files/users/icone_usuario.png';
         }
 
         const { _id, name, email, createdAt, updatedAt, fileName } = user;
@@ -80,7 +80,7 @@ class PerfilController {
       }
     }
 
-    var data = req.body;
+    let data = req.body;
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 8);
     }
@@ -100,4 +100,4 @@ class PerfilController {
   }
 }
 
-export default new PerfilController();
+module.exports = new PerfilController();

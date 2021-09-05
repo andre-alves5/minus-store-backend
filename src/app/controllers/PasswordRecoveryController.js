@@ -1,9 +1,9 @@
-import * as Yup from "yup";
-import bcrypt from "bcryptjs";
-import UserModel from "../models/User";
-import nodemailer from "nodemailer";
-import config from "../../config/config";
-import configEmail from "../../config/email";
+const Yup = require("yup");
+const bcrypt = require("bcryptjs");
+const UserModel = require("../models/User");
+const nodemailer = require("nodemailer");
+const config = require("../../config/config");
+const configEmail = require("../../config/email");
 
 class PasswordRecoveryController {
   async show(req, res) {
@@ -36,7 +36,7 @@ class PasswordRecoveryController {
       });
     }
 
-    var data = req.body;
+    let data = req.body;
     const userExists = await UserModel.findOne(
       { email: data.email },
       "_id name email"
@@ -148,7 +148,7 @@ class PasswordRecoveryController {
       });
     }
 
-    var data = req.body;
+    let data = req.body;
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 8);
       data.passwordRecovery = null;
@@ -169,4 +169,4 @@ class PasswordRecoveryController {
   }
 }
 
-export default new PasswordRecoveryController();
+module.exports = new PasswordRecoveryController();

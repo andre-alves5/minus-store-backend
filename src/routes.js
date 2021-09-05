@@ -1,7 +1,7 @@
 /* eslint-disable node/no-path-concat */
-import { Router } from 'express';
-import { readdirSync } from 'fs';
-import path from 'path';
+const { Router } = require('express');
+const { readdirSync } = require('fs');
+const path = require('path');
 
 const router = new Router();
 readdirSync(path.join(__dirname, 'config', 'routes')).map(async (file) => {
@@ -10,4 +10,4 @@ readdirSync(path.join(__dirname, 'config', 'routes')).map(async (file) => {
   }
 });
 
-export default router;
+module.exports = router;

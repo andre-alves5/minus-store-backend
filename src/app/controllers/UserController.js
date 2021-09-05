@@ -1,6 +1,6 @@
-import * as Yup from 'yup';
-import bcrypt from 'bcryptjs';
-import UserModel from '../models/User';
+const Yup = require('yup');
+const bcrypt = require('bcryptjs');
+const UserModel = require('../models/User');
 
 class UserController {
   async index(req, res) {
@@ -65,7 +65,7 @@ class UserController {
       });
     }
 
-    var data = req.body;
+    let data = req.body;
     data.password = await bcrypt.hash(data.password, 8);
 
     const user = UserModel.create(data, (error) => {
@@ -119,7 +119,7 @@ class UserController {
       }
     }
 
-    var data = req.body;
+    let data = req.body;
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 8);
     }
@@ -162,4 +162,4 @@ class UserController {
   }
 }
 
-export default new UserController();
+module.exports = new UserController();

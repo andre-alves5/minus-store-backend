@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2';
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const OrderDetailsModel = new mongoose.Schema({
   itemId: {
@@ -84,4 +84,4 @@ const OrderModel = new mongoose.Schema(
 );
 OrderModel.plugin(mongoosePaginate);
 
-export default mongoose.model('order', OrderModel);
+module.exports = mongoose.model('order', OrderModel);

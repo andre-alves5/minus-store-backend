@@ -1,5 +1,5 @@
-import UserModel from '../models/User';
-import fs from 'fs';
+const UserModel = require('../models/User');
+const fs = require('fs');
 
 class PerfilImagemController {
   async update(req, res) {
@@ -52,4 +52,4 @@ class PerfilImagemController {
   }
 }
 
-export default new PerfilImagemController();
+module.exports = new PerfilImagemController();
