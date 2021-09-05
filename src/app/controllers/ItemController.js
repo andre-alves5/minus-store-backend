@@ -1,18 +1,24 @@
 import * as Yup from 'yup';
 import ItemModel from '../models/Item';
-import config from '../../config/config';
 
 class ItemController {
   async index(req, res) {
+    /*await sleep(3000);
+
+    function sleep(ms) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }*/
     const { page = 1 } = req.query;
     const { limit = 20 } = req.query;
     await ItemModel.paginate(
       {},
       {
-        select: '_id title description color size price fileName',
+        select: '_id title description color size price url',
         page,
         limit,
-        sort: '-createdAt',
+        sort: 'title color size',
       }
     )
       .then((data) => {
@@ -30,19 +36,11 @@ class ItemController {
   }
 
   async show(req, res) {
-    let url = '';
-
     ItemModel.findOne(
       { _id: req.params.id },
-      '_id title description color size price createdAt updatedAt originalName fileName'
+      '_id title description color size price url createdAt updatedAt'
     )
       .then((data) => {
-        if (data.fileName) {
-          url = config.url + '/files/items/' + data.fileName;
-        } else {
-          url = config.url + '/files/items/placeholder.jpg';
-        }
-
         const {
           _id,
           title,
@@ -50,10 +48,9 @@ class ItemController {
           color,
           size,
           price,
+          url,
           createdAt,
           updatedAt,
-          originalName,
-          fileName,
         } = data;
         return res.json({
           error: false,
@@ -64,11 +61,9 @@ class ItemController {
             color,
             size,
             price,
+            url,
             createdAt,
             updatedAt,
-            originalName,
-            fileName,
-            url: url,
           },
         });
       })
@@ -98,7 +93,7 @@ class ItemController {
 
     let data = req.body;
 
-    const item = ItemModel.create(data, (error) => {
+    const item = ItemModel.create(req.body, (error) => {
       if (error)
         return res.status(400).json({
           error: true,
@@ -131,7 +126,7 @@ class ItemController {
 
     const { id } = req.params;
 
-    const itemExists = await ItemModel.findOne({ _id: id });
+    const itemExists = await ItemModel.findOne({ _id: req.params.id });
 
     if (!itemExists) {
       return res.status(400).json({
@@ -142,7 +137,7 @@ class ItemController {
 
     let data = req.body;
 
-    await ItemModel.updateOne({ _id: req.params.id }, data, (error) => {
+    await ItemModel.updateOne({ _id: req.params.id }, req.body, (error) => {
       if (error)
         return res.status(400).json({
           error: true,
@@ -161,7 +156,7 @@ class ItemController {
     if (!itemExists) {
       return res.status(400).json({
         error: true,
-        message: 'Erro: Usuário não encontrado',
+        message: 'Erro: Item não encontrado',
       });
     }
 

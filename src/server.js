@@ -1,7 +1,7 @@
-import app from './app';
+import app from "./app";
 
-app.listen(process.env.PORT, () => {
-  console.log(
-    `Servidor iniciado na porta 8080: http://localhost:${process.env.PORT}`
-  );
+const port = process.env.PORT;
+
+app.listen(port, () => {
+  console.log(`Servidor iniciado na porta ${port}: http://localhost:${port}`);
 });
